@@ -104,11 +104,6 @@ Cloud.prototype.draw = function(program, oldTransform, newTransform, red, green,
     GL.uniformMatrix4fv(GL.getUniformLocation(program, "newTransform"), false, newTransform)
     GL.uniform2f(GL.getUniformLocation(program, "aspect"), window.innerWidth > window.innerHeight ? window.innerHeight / window.innerWidth : 1, window.innerHeight > window.innerWidth ? window.innerWidth / window.innerHeight : 1)
     
-    GL.uniform1f(GL.getUniformLocation(program, "bank"), BankSlider.value)
-    GL.uniform1f(GL.getUniformLocation(program, "pitch"), PitchSlider.value)
-    GL.uniform1f(GL.getUniformLocation(program, "yaw"), YawSlider.value)
-    GL.uniform1f(GL.getUniformLocation(program, "roll"), RollSlider.value)
-    
     GL.drawElements(GL.TRIANGLES, 6 * this.points.length, GL.UNSIGNED_SHORT, 0)
     
     GL.disableVertexAttribArray(locationAttrib)
