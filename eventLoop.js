@@ -16,37 +16,6 @@ function OnLoad() {
     GL.blendFunc(GL.ONE, GL.ONE)
     GL.enable(GL.BLEND)
     
-    track = new Cloud()
-    for(var i = 0; i < 128; i++) {
-        track.add(0, -2, i * 8, 0.6, 2, 1.2, 0.2, 3)
-        track.add(6, -2, i * 8, 0.6, 2, 1.2, 0.2, 3)
-        track.add(-6, -2, i * 8, 0.6, 2, 1.2, 0.2, 3)
-        track.add(12, -2, i * 8, 0.6, 2, 1.2, 0.2, 3)
-        track.add(-12, -2, i * 8, 0.6, 2, 1.2, 0.2, 3)
-        
-        track.add(0, -2, i * 8 + 2, 0.2, 2, 0.5, 0.2, 3)
-        track.add(6, -2, i * 8 + 2, 0.2, 2, 0.5, 0.2, 3)
-        track.add(-6, -2, i * 8 + 2, 0.2, 2, 0.5, 0.2, 3)
-        track.add(12, -2, i * 8 + 2, 0.2, 2, 0.5, 0.2, 3)
-        track.add(-12, -2, i * 8 + 2, 0.2, 2, 0.5, 0.2, 3)
-        
-        track.add(-14, Math.abs(Math.sin(i * Math.PI / 8)) * -20 + 20, i * 8, 3, 0.2, 1, 1.5, 5)
-        track.add(14, Math.abs(Math.sin(i * Math.PI / 8)) * -20 + 20, i * 8, 3, 0.2, 1, 1.5, 5)
-    }
-    
-    for(var i = 0; i < 16; i++) {
-        track.add(-3, 20, i * 64, 1, 0, 1, 0, 3)
-        track.add(-8, 20, i * 64, 1, 0, 1, 0, 3)
-        track.add(3, 20, i * 64, 1, 0, 1, 0, 3)
-        track.add(8, 20, i * 64, 1, 0, 1, 0, 3)
-        track.add(-14, 12, i * 64, 1, 0, 1, 0, 3)
-        track.add(14, 12, i * 64, 1, 0, 1, 0, 3)
-        track.add(-14, 6, i * 64, 1, 0, 1, 0, 3)
-        track.add(14, 6, i * 64, 1, 0, 1, 0, 3)
-        track.add(-14, 0, i * 64, 1, 0, 1, 0, 3)
-        track.add(14, 0, i * 64, 1, 0, 1, 0, 3)
-    }
-    
     window.requestAnimationFrame(Update)
 }
 
@@ -88,7 +57,7 @@ function Draw() {
     GL.clear(GL.COLOR_BUFFER_BIT)
     oldTransform[11] = oldLocation
     newTransform[11] = newLocation
-    track.draw(program, oldTransform, newTransform, 1, 1, 1)
+    Meshes.track.draw(program, oldTransform, newTransform, 1, 1, 1)
 }
 
 function ResetCamera() {
