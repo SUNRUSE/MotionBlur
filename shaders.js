@@ -5,10 +5,10 @@ var Shaders = {
         "#endif",
         "attribute vec3 location;",
         "attribute vec2 uv;",
-        "attribute vec3 color;",
+        "attribute vec4 color;",
         "attribute float exponent;",
         "varying vec2 var_uv;",
-        "varying vec3 var_color;",
+        "varying vec4 var_color;",
         "varying float var_exponent;",
         "uniform mat4 oldTransform;",
         "uniform mat4 newTransform;",
@@ -33,11 +33,11 @@ var Shaders = {
         "precision mediump float;",
         "#endif",
         "varying vec2 var_uv;",
-        "varying vec3 var_color;",
+        "varying vec4 var_color;",
         "varying float var_exponent;",
         "void main() {",
             "float intensity = pow(1.0 - min(length(var_uv), 1.0), var_exponent);",
-            "gl_FragColor = vec4(intensity * var_color, 1.0);",
+            "gl_FragColor = intensity * var_color;",
         "}"
     ].join("\n")
 }

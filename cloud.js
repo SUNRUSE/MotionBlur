@@ -2,18 +2,18 @@ function Cloud() {
     this.points = []
 }
 
-Cloud.prototype.add = function(x, y, z, size, red, green, blue, exponent) {
+Cloud.prototype.add = function(x, y, z, size, red, green, blue, alpha, exponent) {
     this.points.push(arguments)
 }
 
-Cloud.prototype.addMirror = function(x, y, z, size, red, green, blue, exponent) {
+Cloud.prototype.addMirror = function(x, y, z, size, red, green, blue, alpha, exponent) {
     this.points.push(arguments)
     var temp = Array.prototype.slice.apply(arguments)
     temp[0] = -temp[0]
     this.points.push(temp)
 }
 
-Cloud.prototype.draw = function(program, oldTransform, newTransform, red, green, blue) {    
+Cloud.prototype.draw = function(program, oldTransform, newTransform, red, green, blue, alpha) {    
     if(!this.built) {
         var vertices = []
         var indices = []
@@ -29,6 +29,7 @@ Cloud.prototype.draw = function(program, oldTransform, newTransform, red, green,
             vertices.push(point[5])
             vertices.push(point[6])
             vertices.push(point[7])
+            vertices.push(point[8])
             
             vertices.push(point[0])
             vertices.push(point[1])
@@ -39,6 +40,7 @@ Cloud.prototype.draw = function(program, oldTransform, newTransform, red, green,
             vertices.push(point[5])
             vertices.push(point[6])
             vertices.push(point[7])
+            vertices.push(point[8])
             
             vertices.push(point[0])
             vertices.push(point[1])
@@ -49,6 +51,7 @@ Cloud.prototype.draw = function(program, oldTransform, newTransform, red, green,
             vertices.push(point[5])
             vertices.push(point[6])
             vertices.push(point[7])
+            vertices.push(point[8])
             
             vertices.push(point[0])
             vertices.push(point[1])
@@ -59,6 +62,7 @@ Cloud.prototype.draw = function(program, oldTransform, newTransform, red, green,
             vertices.push(point[5])
             vertices.push(point[6])
             vertices.push(point[7])
+            vertices.push(point[8])
             
             indices.push(i * 4)
             indices.push(i * 4 + 1)
@@ -86,19 +90,19 @@ Cloud.prototype.draw = function(program, oldTransform, newTransform, red, green,
     
     var locationAttrib = GL.getAttribLocation(program, "location")
     GL.enableVertexAttribArray(locationAttrib)
-    GL.vertexAttribPointer(locationAttrib, 3, GL.FLOAT, false, 4 * (3 + 2 + 3 + 1), 0)
+    GL.vertexAttribPointer(locationAttrib, 3, GL.FLOAT, false, 4 * (3 + 2 + 4 + 1), 0)
     
     var uvAttrib = GL.getAttribLocation(program, "uv")
     GL.enableVertexAttribArray(uvAttrib)
-    GL.vertexAttribPointer(uvAttrib, 2, GL.FLOAT, false, 4 * (3 + 2 + 3 + 1), 4 * 3)
+    GL.vertexAttribPointer(uvAttrib, 2, GL.FLOAT, false, 4 * (3 + 2 + 4 + 1), 4 * 3)
     
     var colorAttrib = GL.getAttribLocation(program, "color")
     GL.enableVertexAttribArray(colorAttrib)
-    GL.vertexAttribPointer(colorAttrib, 3, GL.FLOAT, false, 4 * (3 + 2 + 3 + 1), 4 * (3 + 2))    
+    GL.vertexAttribPointer(colorAttrib, 4, GL.FLOAT, false, 4 * (3 + 2 + 4 + 1), 4 * (3 + 2))    
     
     var exponentAttrib = GL.getAttribLocation(program, "exponent")
     GL.enableVertexAttribArray(exponentAttrib)
-    GL.vertexAttribPointer(exponentAttrib, 1, GL.FLOAT, false, 4 * (3 + 2 + 3 + 1), 4 * (3 + 2 + 3))   
+    GL.vertexAttribPointer(exponentAttrib, 1, GL.FLOAT, false, 4 * (3 + 2 + 4 + 1), 4 * (3 + 2 + 4))   
     
     GL.uniformMatrix4fv(GL.getUniformLocation(program, "oldTransform"), false, oldTransform)
     GL.uniformMatrix4fv(GL.getUniformLocation(program, "newTransform"), false, newTransform)

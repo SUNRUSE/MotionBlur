@@ -13,7 +13,7 @@ function OnLoad() {
     program = CreateProgram(CreateShader(GL.VERTEX_SHADER, Shaders.vertex), CreateShader(GL.FRAGMENT_SHADER, Shaders.fragment))
     
     GL.clearColor(0, 0, 0, 1)
-    GL.blendFunc(GL.ONE, GL.ONE)
+    GL.blendFunc(GL.ONE, GL.ONE_MINUS_SRC_ALPHA)
     GL.enable(GL.BLEND)
     
     window.requestAnimationFrame(Update)
@@ -57,7 +57,7 @@ function Draw() {
     GL.clear(GL.COLOR_BUFFER_BIT)
     oldTransform[11] = oldLocation
     newTransform[11] = newLocation
-    Meshes.track.draw(program, oldTransform, newTransform, 1, 1, 1)
+    Meshes.track.draw(program, oldTransform, newTransform, 1, 1, 1, 0)
 }
 
 function ResetCamera() {
