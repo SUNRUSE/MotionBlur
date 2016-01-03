@@ -6,6 +6,13 @@ Cloud.prototype.add = function(x, y, z, size, red, green, blue, exponent) {
     this.points.push(arguments)
 }
 
+Cloud.prototype.addMirror = function(x, y, z, size, red, green, blue, exponent) {
+    this.points.push(arguments)
+    var temp = Array.prototype.slice.apply(arguments)
+    temp[0] = -temp[0]
+    this.points.push(temp)
+}
+
 Cloud.prototype.draw = function(program, oldTransform, newTransform, red, green, blue) {    
     if(!this.built) {
         var vertices = []
