@@ -21,12 +21,10 @@ function OnLoad() {
 
 var lastTimestamp = null
 var newLocation = 0
-var oldLocation = 0
 
 function Update(timestamp) {
     var delta = 0
     if(lastTimestamp !== null) delta = (timestamp - lastTimestamp) / 1000
-    oldLocation = newLocation
     newLocation -= delta * SpeedSlider.value
     
     Draw()
@@ -35,19 +33,13 @@ function Update(timestamp) {
     window.requestAnimationFrame(Update)
 }
 
-var newTransform = [
+var trackTransform = [
     1, 0, 0, 0,
     0, 1, 0, 0,
     0, 0, 1, 0,
     0, 0, 0, 1
 ]
-
-var oldTransform = [
-    1, 0, 0, 0,
-    0, 1, 0, 0,
-    0, 0, 1, 0,
-    0, 0, 0, 1
-]
+var trackInstance = new CloudInstance(Meshes.track)
 
 var carTransform = [
     1, 0, 0, 0.001,
@@ -55,13 +47,7 @@ var carTransform = [
     0, 0, 1, 4,
     0, 0, 0, 1
 ]
-
-var carTransform2 = [
-    1, 0, 0, 0,
-    0, 1, 0, -2,
-    0, 0, 1, 4,
-    0, 0, 0, 1
-]
+var carInstance = new CloudInstance(Meshes.car)
 
 function Draw() {
     canvas.width = window.innerWidth
@@ -69,25 +55,18 @@ function Draw() {
     GL.viewport(0, 0, window.innerWidth, window.innerHeight)
     
     GL.clear(GL.COLOR_BUFFER_BIT)
-    oldTransform[11] = oldLocation
-    newTransform[11] = newLocation
-    Meshes.track.draw(program, oldTransform, newTransform, 1, 1, 1)
+    trackTransform[11] = newLocation
+    trackInstance.draw(program, trackTransform, 1, 1, 1, 1)
 
-    var oldTilt = Math.sin(oldLocation * 0.1)
-    var newTilt = Math.sin(newLocation * 0.1)
-    carTransform[0] = Math.cos(oldTilt)
-    carTransform[2] = Math.sin(oldTilt)
+    var tilt = Math.sin(newLocation * 0.1)
+
+    carTransform[0] = Math.cos(tilt)
+    carTransform[2] = Math.sin(tilt)
     
-    carTransform[8] = -Math.sin(oldTilt)
-    carTransform[10] = Math.cos(oldTilt)
+    carTransform[8] = -Math.sin(tilt)
+    carTransform[10] = Math.cos(tilt)
     
-    carTransform2[0] = Math.cos(newTilt)
-    carTransform2[2] = Math.sin(newTilt)
-    
-    carTransform2[8] = -Math.sin(newTilt)
-    carTransform2[10] = Math.cos(newTilt)
-    
-    Meshes.car.draw(program, carTransform, carTransform2, 1, 1, 1)
+    carInstance.draw(program, carTransform, 1, 1, 1, 1)
 }
 
 function ResetCamera() {
