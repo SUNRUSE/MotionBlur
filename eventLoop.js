@@ -49,6 +49,20 @@ var oldTransform = [
     0, 0, 0, 1
 ]
 
+var carTransform = [
+    1, 0, 0, 0.001,
+    0, 1, 0, -2,
+    0, 0, 1, 4,
+    0, 0, 0, 1
+]
+
+var carTransform2 = [
+    1, 0, 0, 0,
+    0, 1, 0, -2,
+    0, 0, 1, 4,
+    0, 0, 0, 1
+]
+
 function Draw() {
     canvas.width = window.innerWidth
     canvas.height = window.innerHeight
@@ -57,7 +71,23 @@ function Draw() {
     GL.clear(GL.COLOR_BUFFER_BIT)
     oldTransform[11] = oldLocation
     newTransform[11] = newLocation
-    Meshes.track.draw(program, oldTransform, newTransform, 1, 1, 1, 0)
+    Meshes.track.draw(program, oldTransform, newTransform, 1, 1, 1)
+
+    var oldTilt = Math.sin(oldLocation * 0.1)
+    var newTilt = Math.sin(newLocation * 0.1)
+    carTransform[0] = Math.cos(oldTilt)
+    carTransform[2] = Math.sin(oldTilt)
+    
+    carTransform[8] = -Math.sin(oldTilt)
+    carTransform[10] = Math.cos(oldTilt)
+    
+    carTransform2[0] = Math.cos(newTilt)
+    carTransform2[2] = Math.sin(newTilt)
+    
+    carTransform2[8] = -Math.sin(newTilt)
+    carTransform2[10] = Math.cos(newTilt)
+    
+    Meshes.car.draw(program, carTransform, carTransform2, 1, 1, 1)
 }
 
 function ResetCamera() {
