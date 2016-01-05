@@ -1,5 +1,3 @@
-var newLocation = 0
-
 var trackTransform = [
     1, 0, 0, 0,
     0, 1, 0, 0,
@@ -16,18 +14,29 @@ var carTransform = [
 ]
 var carInstance = new CloudInstance(Meshes.car)
 
-function Update() {
-    newLocation -= (SpeedSlider.value) / 60
-    
-    trackTransform[11] = newLocation    
-    
-    var tilt = Math.sin(newLocation * 0.1)
+var roll = 0
+var position = 0
+var speed = 0
+var lane = 0
+var cameraPosition = 0
 
-    carTransform[0] = Math.cos(tilt)
-    carTransform[2] = Math.sin(tilt)
+function Update() {   
+    var targetRoll = ((Controls.turningRight ? 1 : 0) - (Controls.turningLeft ? 1 : 0)) * 0.5
+    roll += (targetRoll - roll) * 0.05
+    if(Controls.accelerating) speed += 0.03
+    speed *= 0.99
+    position += speed
+    lane += roll * speed
+    cameraPosition += (position - cameraPosition) * 0.95
     
-    carTransform[8] = -Math.sin(tilt)
-    carTransform[10] = Math.cos(tilt)    
+    carTransform[3] *= -1
+    carTransform[0] = Math.cos(roll)
+    carTransform[1] = Math.sin(roll)
+    carTransform[4] = -Math.sin(roll)
+    carTransform[5] = Math.cos(roll)
+    
+    trackTransform[3] = -lane
+    trackTransform[11] = -position
     
     UpdatedSinceLastDraw = true
 }
