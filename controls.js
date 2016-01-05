@@ -15,11 +15,11 @@ var KeyMappings = {
 function OnKeyUp() {
     var mapping = KeyMappings[event.keyCode]
     if(!mapping) return
-    KeyMappings[mapping] = false
+    Controls[mapping] = false
 }
 
 function OnKeyDown() {
     var mapping = KeyMappings[event.keyCode]
     if(!mapping) return
-    KeyMappings[mapping] = true
+    Controls[mapping] = true
 }
