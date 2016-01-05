@@ -6,13 +6,6 @@
     </head>
     <body onload="OnLoad()" onkeyup="OnKeyUp()" onkeydown="OnKeyDown()">
         <link rel="stylesheet" type="text/css" href="reset.css">
-        <form>
-            <fieldset>
-                <legend>Camera</legend>
-                <label>Speed: <input type="range" min="-200" max="2000" value="200" step="any" id="SpeedSlider"></label>
-                <button onclick="ResetCamera()">Back to start</button>
-            </fieldset>
-        </form>
         <canvas></canvas>
         <script src="shaderHelpers.js"></script>
         <script src="cloud.js"></script>
