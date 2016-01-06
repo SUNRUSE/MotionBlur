@@ -16,8 +16,25 @@ function OnLoad() {
     GL.blendFunc(GL.ONE, GL.ONE_MINUS_SRC_ALPHA)
     GL.enable(GL.BLEND)
     
-    setInterval(Update, 10)
-    window.requestAnimationFrame(Draw)
+    window.requestAnimationFrame(NewFrame)
+}
+
+var lastTimestamp = null
+function NewFrame(timestamp) {
+    var delta
+    if(lastTimestamp === null) {
+        delta = 0
+    } else {
+        // Below 10FPS, either the game was suspended for a long time, or is running very slowly.
+        // Cap the delta there to keep the game stable. 
+        delta = Math.min(0.1, (timestamp - lastTimestamp) / 1000)
+    }
+    lastTimestamp = timestamp
+    
+    Update(delta)
+    Draw()
+    
+    window.requestAnimationFrame(NewFrame)
 }
 
 function ResetCamera() {

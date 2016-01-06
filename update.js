@@ -19,24 +19,26 @@ var position = 0
 var speed = 0
 var lane = 0
 var cameraPosition = 0
+var cameraLane = 0
 
-function Update() {   
+function Update(delta) {   
     var targetRoll = ((Controls.turningRight ? 1 : 0) - (Controls.turningLeft ? 1 : 0)) * 0.5
-    roll += (targetRoll - roll) * 0.05
-    if(Controls.accelerating) speed += 0.03
-    speed *= 0.99
-    position += speed
-    lane += roll * speed
-    cameraPosition += (position - cameraPosition) * 0.95
+    roll = Ease(roll, targetRoll, 3, delta)
+    if(Controls.accelerating) speed += 40 * delta
+    speed = Dampen(speed, 0.2, delta)
+    position += speed * delta
+    lane += roll * speed * delta * 0.6
+    cameraPosition = Ease(cameraPosition, position - 4, 50, delta)
+    cameraLane = Ease(cameraLane, lane, 50, delta)
     
     carTransform[3] *= -1
     carTransform[0] = Math.cos(roll)
     carTransform[1] = Math.sin(roll)
     carTransform[4] = -Math.sin(roll)
     carTransform[5] = Math.cos(roll)
+    carTransform[3] = lane - cameraLane
+    carTransform[11] = position - cameraPosition
     
-    trackTransform[3] = -lane
-    trackTransform[11] = -position
-    
-    UpdatedSinceLastDraw = true
+    trackTransform[3] = -cameraLane
+    trackTransform[11] = -cameraPosition
 }
