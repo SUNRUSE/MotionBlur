@@ -41,4 +41,6 @@ function Update(delta) {
     
     trackTransform[3] = -cameraLane
     trackTransform[11] = -cameraPosition
+    
+    UpdateEntities(delta)
 }

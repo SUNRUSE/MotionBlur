@@ -8,4 +8,6 @@ function Draw() {
     trackInstance.draw(program, trackTransform, 1, 1, 1, 1)
     
     carInstance.draw(program, carTransform, 1, 1, 1, 1)
+    
+    DrawEntities(program)
 }
