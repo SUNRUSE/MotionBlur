@@ -1,3 +1,5 @@
+var trackInstance = new CloudInstance(Meshes.track)
+
 function Draw() {
     canvas.width = window.innerWidth
     canvas.height = window.innerHeight
@@ -5,7 +7,7 @@ function Draw() {
     
     GL.clear(GL.COLOR_BUFFER_BIT)
     
-    trackInstance.draw(program, trackTransform, 1, 1, 1, 1)
+    trackInstance.draw(program, CameraTransform, 1, 1, 1, 1)
     
     carInstance.draw(program, carTransform, 1, 1, 1, 1)
     
